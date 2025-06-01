@@ -3,22 +3,28 @@ package com.ramacciotti.registerapp.service.impl;
 import com.ramacciotti.registerapp.model.User;
 import com.ramacciotti.registerapp.repository.UserRepository;
 import com.ramacciotti.registerapp.service.UserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
+@Slf4j
 @Service
-public class UserServiceImpl implements UserService {
-    private final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
+public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
-        this.passwordEncoder = new BCryptPasswordEncoder();
+        this.passwordEncoder = passwordEncoder;
     }
+
 
     @Override
     public User registerUser(String email, String rawPassword) {
@@ -40,8 +46,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User loginUser(String email, String rawPassword) {
         log.info("Trying to login user with email: {}", email);
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> {
                     log.info("Login failed - user with email {} not found", email);
                     return new RuntimeException("User not found");
                 });
@@ -55,4 +60,17 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("Incorrect password");
         }
     }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
+
+        return new org.springframework.security.core.userdetails.User(
+                user.getEmail(),
+                user.getPassword(),
+                List.of(new SimpleGrantedAuthority("USER")) // se quiser, coloque roles aqui
+        );
+    }
+
 }
