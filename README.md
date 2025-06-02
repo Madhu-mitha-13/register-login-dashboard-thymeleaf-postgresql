@@ -25,31 +25,33 @@ This project implements a user management system with registration, login, email
 - Spring Data JPA
 - BCrypt Password Encoder
 - Maven
-- H2 Database (or any other configured database)
 
 ## Prerequisites
 
 - Java 17 or higher installed
 - Maven 3.6 or higher installed
-- A database configured and running (H2 by default, but can be changed)
+- Docker and Docker Compose installed (for containerized execution)
+- GitHub account (to use CI/CD pipeline with Secrets configured)
 
 ## How to Run
 
-1. Clone the repository:
-   
-   ```bash
-   git clone <REPOSITORY_URL>
-   cd register-login-dashboard-thymeleaf-postgresql
-   ```
-   
-2. Configure the database properties in
- 
- ```src/main/resources/application.properties ou application.yml. ```
+Docker allows you to run the entire application including the database in containers, isolating dependencies and environment setup.
 
-3. Run the project using Maven:
-  
-  ```mvn clean install```
-  ```mvn spring-boot:run```
+1) Create a .env file in the project root (and add it to .gitignore) with:
+
+```SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/x```
+```SPRING_DATASOURCE_USERNAME=postgres ```
+```SPRING_DATASOURCE_PASSWORD=yourpassword ```
+
+2) Run Docker Compose to build and start the app and PostgreSQL database:
+
+```docker compose up --build```
+
+3) Access the app at http://localhost:8080/swagger-ui/index.html
+
+4) To stop and clean containers: 
+
+```docker compose down -v```
 
 ## Important Configurations
 
@@ -58,6 +60,8 @@ This project implements a user management system with registration, login, email
 3) Database credentials and URL must be set properly in application.properties or application.yml.
 4) Thymeleaf templates are used for rendering the frontend views.
 5) Session invalidation occurs on email or password change for security.
+6) Dockerfile and Docker Compose files are provided for containerized builds and deployments.
+7) GitHub Actions workflow is configured to build and deploy using Docker Compose. 
 
 ## Contributions
 
