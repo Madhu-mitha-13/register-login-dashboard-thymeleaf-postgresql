@@ -24,6 +24,11 @@
         <button type="submit">Alterar Senha</button>
     </form>
 
+    <h3>Excluir Conta</h3>
+    <form th:action="@{/dashboard/delete-account}" method="post" onsubmit="return confirm('Tem certeza que deseja deletar sua conta? Essa ação não poderá ser desfeita.')">
+        <button type="submit" style="background-color: #e74c3c; color: white;">Excluir Conta</button>
+    </form>
+
     <form th:action="@{/logout}" method="post">
         <button type="submit">Sair</button>
     </form>
