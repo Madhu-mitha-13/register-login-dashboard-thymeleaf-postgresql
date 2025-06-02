@@ -27,29 +27,35 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 
     @Override
-    public User registerUser(String email, String rawPassword) {
-        log.info("Trying to register user with email: {}", email);
-        if (userRepository.findByEmail(email).isPresent()) {
-            log.info("Registration failed - user with email {} already exists", email);
+    public User registerUser(String username, String rawPassword) {
+        log.info("Trying to register user with email: {}", username);
+
+        if (userRepository.findByUsername(username).isPresent()) {
+            log.info("Registration failed - user with email {} already exists", username);
             throw new RuntimeException("User with this email already exists");
         }
+
         User user = new User();
-        user.setEmail(email);
+        user.setUsername(username);
+
         String encodedPassword = passwordEncoder.encode(rawPassword);
         user.setPassword(encodedPassword);
-        log.info("Password encrypted for email: {}", email);
+        log.info("Password encrypted for email: {}", username);
+
         User savedUser = userRepository.save(user);
-        log.info("User registered successfully with email: {}", email);
+        log.info("User registered successfully with email: {}", username);
+
         return savedUser;
     }
 
     @Override
     public User loginUser(String email, String rawPassword) {
         log.info("Trying to login user with email: {}", email);
-        User user = userRepository.findByEmail(email).orElseThrow(() -> {
-                    log.info("Login failed - user with email {} not found", email);
-                    return new RuntimeException("User not found");
-                });
+
+        User user = userRepository.findByUsername(email).orElseThrow(() -> {
+            log.info("Login failed - user with email {} not found", email);
+            return new RuntimeException("User not found");
+        });
 
         boolean matches = passwordEncoder.matches(rawPassword, user.getPassword());
         if (matches) {
@@ -62,14 +68,20 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        log.info("Loading user by username (email): {}", username);
 
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> {
+                    log.info("User not found in loadUserByUsername for email: {}", username);
+                    return new UsernameNotFoundException("Usuário não encontrado");
+                });
+
+        log.info("User found in loadUserByUsername: {}", username);
         return new org.springframework.security.core.userdetails.User(
-                user.getEmail(),
+                user.getUsername(),
                 user.getPassword(),
-                List.of(new SimpleGrantedAuthority("USER")) // se quiser, coloque roles aqui
+                List.of(new SimpleGrantedAuthority("USER"))
         );
     }
 
