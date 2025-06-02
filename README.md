@@ -8,7 +8,6 @@ User registration and authentication project developed with Spring Boot, Spring 
 - [Technologies](#technologies)
 - [Prerequisites](#prerequisites)
 - [How to Run](#how-to-run)
-- [How to Test](#how-to-test)
 - [Important Configurations](#important-configurations)
 - [Contributions](#contributions)
 - [License](#license)
