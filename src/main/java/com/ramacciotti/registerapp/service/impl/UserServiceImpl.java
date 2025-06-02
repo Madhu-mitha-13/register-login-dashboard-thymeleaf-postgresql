@@ -25,9 +25,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         this.passwordEncoder = passwordEncoder;
     }
 
-
     @Override
-    public User registerUser(String username, String rawPassword) {
+    public User createUser(String username, String rawPassword) {
         log.info("Trying to register user with email: {}", username);
 
         if (userRepository.findByUsername(username).isPresent()) {
@@ -71,8 +70,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         log.info("Loading user by username (email): {}", username);
 
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> {
+        User user = userRepository.findByUsername(username).orElseThrow(() -> {
                     log.info("User not found in loadUserByUsername for email: {}", username);
                     return new UsernameNotFoundException("Usuário não encontrado");
                 });
@@ -83,6 +81,28 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 user.getPassword(),
                 List.of(new SimpleGrantedAuthority("USER"))
         );
+    }
+
+    @Override
+    public void updateUserEmail(String currentUsername, String newEmail) {
+        User user = userRepository.findByUsername(currentUsername).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+        user.setUsername(newEmail);
+        userRepository.save(user);
+        log.info("Email do usuário '{}' atualizado para '{}'", currentUsername, newEmail);
+    }
+
+    @Override
+    public void updateUserPassword(String currentUsername, String newPassword) {
+        User user = userRepository.findByUsername(currentUsername).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+        log.info("Senha do usuário '{}' atualizada com sucesso", currentUsername);
+    }
+
+    @Override
+    public void deleteUserByUsername(String username) {
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
+        userRepository.delete(user);
     }
 
 }
