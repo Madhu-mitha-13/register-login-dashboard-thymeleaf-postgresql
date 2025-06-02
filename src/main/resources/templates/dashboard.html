@@ -1,15 +1,22 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Dashboard</title>
-</head>
-<body>
-<h2>Bem-vindo ao Dashboard, <span th:text="${email}">Usuário</span>!</h2>
 
-<p>Esta página só pode ser acessada se você estiver logado.</p>
+    <head>
+        <title>Dashboard</title>
+        <link rel="stylesheet" th:href="@{/css/style.css}" />
+        <meta charset="UTF-8" />
+    </head>
 
-<form th:action="@{/logout}" method="post">
-    <button type="submit">Sair</button>
-</form>
-</body>
+    <body>
+        <div class="container">
+            <h2>Bem-vindo ao Dashboard, <span th:text="${email}">Usuário</span>!</h2>
+
+            <p>Esta página só pode ser acessada se você estiver logado.</p>
+
+            <form th:action="@{/logout}" method="post">
+                <button type="submit">Sair</button>
+            </form>
+        </div>
+    </body>
+
 </html>
