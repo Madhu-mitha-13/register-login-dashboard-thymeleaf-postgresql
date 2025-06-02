@@ -33,7 +33,7 @@ public class AuthController {
         log.info("Processando registro para o usuário: {}", authRequest.getUsername());
 
         try {
-            userServiceImpl.registerUser(authRequest.getUsername(), authRequest.getPassword());
+            userServiceImpl.createUser(authRequest.getUsername(), authRequest.getPassword());
             model.addAttribute("message", "Usuário registrado com sucesso!");
             log.info("Usuário registrado com sucesso: {}", authRequest.getUsername());
             return "redirect:/auth/login";

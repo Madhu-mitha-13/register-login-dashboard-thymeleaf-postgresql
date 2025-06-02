@@ -25,20 +25,32 @@ body {
     text-align: center;
 }
 
+h3 {
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
 h2 {
     margin-bottom: 20px;
     color: #444;
     font-size: 24px;
 }
 
+p {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
 form {
-    display: flex;
-    flex-direction: column;
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 25px;
 }
 
 input[type="text"],
 input[type="password"],
-input[type="username"] {
+input[type="username"],
+input[type="email"] {
     padding: 12px;
     margin-bottom: 15px;
     border: 1px solid #ccc;
@@ -48,13 +60,15 @@ input[type="username"] {
 
 input[type="text"]:focus,
 input[type="password"]:focus,
-input[type="username"]:focus {
+input[type="username"]:focus,
+input[type="email"]:focus {
     border-color: #74ebd5;
     outline: none;
 }
 
 button {
     padding: 12px;
+    margin-bottom: 15px;
     background-color: #74ebd5;
     border: none;
     border-radius: 8px;

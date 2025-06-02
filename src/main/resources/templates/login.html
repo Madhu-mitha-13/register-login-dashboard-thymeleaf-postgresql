@@ -1,32 +1,42 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <meta charset="UTF-8" />
+</head>
 
-    <head>
-        <title>Login</title>
-        <link rel="stylesheet" th:href="@{/css/style.css}" />
-        <meta charset="UTF-8"/>
-    </head>
+<body>
+<div class="container">
+    <h2>Login</h2>
 
-    <body>
-        <div class="container">
-            <h2>Login</h2>
+    <div th:if="${param.emailChanged}">
+        <p class="success-message">Email alterado com sucesso! Por favor, faça login novamente.</p>
+    </div>
 
-            <form th:action="@{/auth/login}" method="post">
-                <input type="text" name="username" placeholder="Email" required/>
-                <input type="password" name="password" placeholder="Senha" required/>
-                <button type="submit">Entrar</button>
-            </form>
+    <div th:if="${param.passwordChanged}">
+        <p class="success-message">Senha alterada com sucesso! Por favor, faça login novamente.</p>
+    </div>
 
-            <div th:if="${param.error}">
-                <p style="color:red;">Usuário ou senha inválidos.</p>
-            </div>
+    <div th:if="${param.error}">
+        <p class="error-message">Usuário ou senha incorretos.</p>
+    </div>
 
-            <div th:if="${param.logout}">
-                <p style="color:green;">Você saiu com sucesso.</p>
-            </div>
+    <div th:if="${param.logout}">
+        <p class="success-message">Logout realizado com sucesso.</p>
+    </div>
 
-            <p>Não tem conta? <a th:href="@{/auth/register}">Cadastre-se</a></p>
+    <form th:action="@{/auth/login}" method="post" th:object="${authRequest}">
+        <input type="text" th:field="*{username}" placeholder="Usuário" required />
+        <input type="password" th:field="*{password}" placeholder="Senha" required />
+        <button type="submit">Entrar</button>
+    </form>
 
-        </div>
-    </body>
+    <div th:if="${message}">
+        <p class="error-message" th:text="${message}"></p>
+    </div>
+
+    <a th:href="@{/auth/register}">Ainda não tem conta? Cadastre-se</a>
+</div>
+</body>
 </html>
