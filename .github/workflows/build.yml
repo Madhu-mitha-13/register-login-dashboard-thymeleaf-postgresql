@@ -1,0 +1,35 @@
+name: Java CI with Maven and Docker Compose  # Nome do workflow
+
+on:
+  push:
+    branches: [main]  # Executa no push na branch main
+  pull_request:
+    branches: [main]  # Executa em PRs para a main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Define que o job vai rodar numa VM Ubuntu atualizada
+
+    env:
+      # Variáveis do banco que virão dos Secrets do GitHub
+      SPRING_DATASOURCE_USERNAME: ${{ secrets.SPRING_DATASOURCE_USERNAME }}
+      SPRING_DATASOURCE_PASSWORD: ${{ secrets.SPRING_DATASOURCE_PASSWORD }}
+
+    steps:
+      - name: Checkout repository  # Passo para baixar o código do repositório
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17  # Passo para configurar o JDK 17 na VM
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17' # Define a versão do Java que será usada
+          distribution: 'temurin' # Define a distribuição do Java (Temurin é uma distribuição OpenJDK)
+
+      - name: Build Docker image  # Passo que constrói a imagem Docker da aplicação
+        run: docker build -t register:latest .
+
+      - name: Start services with docker compose
+        run: docker compose up --build -d
+
+      - name: Stop and remove containers
+        run: docker compose down -v
