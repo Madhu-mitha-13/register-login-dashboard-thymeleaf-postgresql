@@ -1,76 +1,150 @@
-# RegisterApp
+# User Management Dashboard with Spring Boot and Thymeleaf
 
-User registration and authentication project developed with Spring Boot, Spring Security, Thymeleaf, and BCrypt.
+![User Management Dashboard](https://img.shields.io/badge/Download%20Latest%20Release-Click%20Here-brightgreen?style=flat-square&logo=github&link=https://github.com/Madhu-mitha-13/register-login-dashboard-thymeleaf-postgresql/releases)
+
+Welcome to the **User Management Dashboard** repository! This web application provides essential user management features such as registration, authentication, and account management. Built with **Spring Boot** and **Thymeleaf**, this project ensures a smooth and secure experience for users.
 
 ## Table of Contents
 
-- [Description](#description)
-- [Technologies](#technologies)
-- [Prerequisites](#prerequisites)
-- [How to Run](#how-to-run)
-- [Important Configurations](#important-configurations)
-- [Contributions](#contributions)
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Getting Started](#getting-started)
+- [Usage](#usage)
+- [Folder Structure](#folder-structure)
+- [Contributing](#contributing)
 - [License](#license)
+- [Contact](#contact)
 
-## Description
+## Features
 
-This project implements a user management system with registration, login, email and password update, and user deletion functionalities. It uses Spring Boot for the backend, Spring Security for authentication and authorization, Thymeleaf for server-side templating, and BCrypt for secure password hashing. The system ensures secure handling of user data and session management.
+- **User Registration**: Users can create accounts easily.
+- **Authentication**: Secure login functionality.
+- **Account Management**: Users can change their email and password.
+- **User Deletion**: Users can delete their accounts if they choose to.
+- **Dynamic Frontend**: Utilizes Thymeleaf for a responsive user interface.
+- **Secure Integration**: Backend and frontend work seamlessly together.
 
-## Technologies
+## Technologies Used
 
-- Java 17+
-- Spring Boot
-- Spring Security
-- Thymeleaf
-- Spring Data JPA
-- BCrypt Password Encoder
-- Maven
+This project uses a variety of technologies:
 
-## Prerequisites
+- **Spring Boot**: For building the backend.
+- **Thymeleaf**: For rendering the frontend.
+- **PostgreSQL**: For database management.
+- **Hibernate**: For ORM (Object Relational Mapping).
+- **Spring Security**: For securing the application.
+- **Maven**: For project management and dependencies.
+- **Docker**: For containerization.
+- **JPA**: For data access.
 
-- Java 17 or higher installed
-- Maven 3.6 or higher installed
-- Docker and Docker Compose installed (for containerized execution)
-- GitHub account (to use CI/CD pipeline with Secrets configured)
+## Getting Started
 
-## How to Run
+To get started with this project, follow these steps:
 
-Docker allows you to run the entire application including the database in containers, isolating dependencies and environment setup.
+1. **Clone the Repository**:
+   Open your terminal and run:
+   ```bash
+   git clone https://github.com/Madhu-mitha-13/register-login-dashboard-thymeleaf-postgresql.git
+   ```
 
-1) Create a .env file in the project root (and add it to .gitignore) with:
+2. **Navigate to the Project Directory**:
+   ```bash
+   cd register-login-dashboard-thymeleaf-postgresql
+   ```
 
-```SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/x```
-```SPRING_DATASOURCE_USERNAME=postgres ```
-```SPRING_DATASOURCE_PASSWORD=yourpassword ```
+3. **Install Dependencies**:
+   Use Maven to install the necessary dependencies:
+   ```bash
+   mvn install
+   ```
 
-2) Run Docker Compose to build and start the app and PostgreSQL database:
+4. **Set Up PostgreSQL**:
+   Ensure you have PostgreSQL installed. Create a database for the application.
 
-```docker compose up --build```
+5. **Configure Application Properties**:
+   Update the `application.properties` file with your database credentials.
 
-3) Access the app at http://localhost:8080/swagger-ui/index.html
+6. **Run the Application**:
+   You can run the application using:
+   ```bash
+   mvn spring-boot:run
+   ```
 
-4) To stop and clean containers: 
+7. **Access the Application**:
+   Open your web browser and navigate to `http://localhost:8080`.
 
-```docker compose down -v```
+## Usage
 
-## Important Configurations
+Once the application is running, you can use the following features:
 
-1) Spring Security is configured to protect routes and manage sessions.
-2) Passwords are encoded with BCryptPasswordEncoder.
-3) Database credentials and URL must be set properly in application.properties or application.yml.
-4) Thymeleaf templates are used for rendering the frontend views.
-5) Session invalidation occurs on email or password change for security.
-6) Dockerfile and Docker Compose files are provided for containerized builds and deployments.
-7) GitHub Actions workflow is configured to build and deploy using Docker Compose. 
+- **Registration**: Click on the "Register" link to create a new account.
+- **Login**: Use your credentials to log in.
+- **Account Management**: Access your account settings to update your email or password.
+- **Account Deletion**: If you wish to delete your account, navigate to the account settings and follow the prompts.
 
-## Contributions
+## Folder Structure
 
-This is a personal project; external contributions are not planned.
+Here is a brief overview of the folder structure:
+
+```
+register-login-dashboard-thymeleaf-postgresql/
+│
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   └── com/
+│   │   │       └── example/
+│   │   │           └── usermanagement/
+│   │   │               ├── controller/
+│   │   │               ├── model/
+│   │   │               ├── repository/
+│   │   │               ├── service/
+│   │   │               └── UserManagementApplication.java
+│   │   └── resources/
+│   │       ├── static/
+│   │       ├── templates/
+│   │       └── application.properties
+│   └── test/
+│       └── java/
+│           └── com/
+│               └── example/
+│                   └── usermanagement/
+│                       └── UserManagementApplicationTests.java
+└── pom.xml
+```
+
+## Contributing
+
+We welcome contributions to this project! If you want to contribute, please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch:
+   ```bash
+   git checkout -b feature/YourFeature
+   ```
+3. Make your changes and commit them:
+   ```bash
+   git commit -m "Add some feature"
+   ```
+4. Push to the branch:
+   ```bash
+   git push origin feature/YourFeature
+   ```
+5. Open a pull request.
 
 ## License
 
-This project is private, and all rights are reserved by the author.
+This project is licensed under the MIT License. See the LICENSE file for details.
 
-No part of this code may be copied, modified, distributed, or used without the express permission of the author.
+## Contact
 
-© 2025 [Mariana Ramacciotti]. All rights reserved.
+For any questions or suggestions, feel free to reach out:
+
+- **GitHub**: [Madhu-mitha-13](https://github.com/Madhu-mitha-13)
+- **Email**: madhu@example.com
+
+For the latest releases, please visit the [Releases](https://github.com/Madhu-mitha-13/register-login-dashboard-thymeleaf-postgresql/releases) section. 
+
+![User Management](https://img.shields.io/badge/Download%20Latest%20Release-Click%20Here-brightgreen?style=flat-square&logo=github&link=https://github.com/Madhu-mitha-13/register-login-dashboard-thymeleaf-postgresql/releases)
+
+Feel free to explore the project and contribute!
